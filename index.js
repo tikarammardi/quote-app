@@ -1,4 +1,4 @@
-"use strict;";
+"use strict";
 
 function getQuote() {
   const res = fetch("https://type.fit/api/quotes")
@@ -7,6 +7,8 @@ function getQuote() {
     })
     .then(function (data) {
       return data;
+    }).catch(function(error)  {
+      console.error('Error in fetching quotes', error);
     });
 
   return res;
@@ -17,6 +19,9 @@ async function handleGetQuoteClick() {
   const author = document.getElementById("author");
 
   const data = await getQuote();
+  if(!data){
+    return;
+  }
 
   const idx = getRandomNumberBetweenRange(0, data.length);
   quote.innerHTML = data[idx].text;
